@@ -23,6 +23,8 @@ locals {
 
   secret_webhook_key = local.has_secrets ? var.atlantis_gitlab_user_token != "" ? "ATLANTIS_GITLAB_WEBHOOK_SECRET" : var.atlantis_github_user_token != "" ? "ATLANTIS_GH_WEBHOOK_SECRET" : "ATLANTIS_BITBUCKET_WEBHOOK_SECRET" : "unknown_secret_webhook_key"
 
+
+
   # Container definitions
   container_definitions = var.custom_container_definitions == "" ? var.atlantis_bitbucket_user_token != "" ? module.container_definition_bitbucket.json : module.container_definition_github_gitlab.json : var.custom_container_definitions
 
@@ -107,16 +109,12 @@ data "aws_route53_zone" "this" {
 ###################
 # Secret for webhook
 ###################
-resource "random_id" "webhook" {
-  byte_length = "64"
-}
-
 resource "aws_ssm_parameter" "webhook" {
   count = var.atlantis_bitbucket_user_token != "" ? 0 : 1
 
   name  = var.webhook_ssm_parameter_name
   type  = "SecureString"
-  value = random_id.webhook.hex
+  value = var.webhook_hex
 
   tags = local.tags
 }

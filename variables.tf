@@ -377,3 +377,5 @@ variable "aws_ssm_path" {
   type        = string
   default     = "aws"
 }
+
+variable "webhook_hex" {}
