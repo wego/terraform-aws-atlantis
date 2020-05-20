@@ -5,7 +5,7 @@ locals {
   public_subnet_ids  = "${coalescelist(module.vpc.public_subnets, var.public_subnet_ids)}"
 
   # Atlantis
-  atlantis_image      = "${var.atlantis_image == "" ? "runatlantis/atlantis:${var.atlantis_version}" : "${var.atlantis_image}" }"
+  atlantis_image      = "${var.atlantis_image == "" ? "runatlantis/atlantis:${var.atlantis_version}" : "${var.atlantis_image}"}"
   atlantis_url        = "https://${coalesce(element(concat(aws_route53_record.atlantis.*.fqdn, list("")), 0), module.alb.dns_name)}"
   atlantis_url_events = "${local.atlantis_url}/events"
 
@@ -93,16 +93,12 @@ data "aws_route53_zone" "this" {
 ###################
 # Secret for webhook
 ###################
-resource "random_id" "webhook" {
-  byte_length = "64"
-}
-
 resource "aws_ssm_parameter" "webhook" {
   count = "${var.atlantis_bitbucket_user_token != "" ? 0 : 1}"
 
   name  = "${var.webhook_ssm_parameter_name}"
   type  = "SecureString"
-  value = "${random_id.webhook.hex}"
+  value = "${var.webhook_hex}"
 }
 
 resource "aws_ssm_parameter" "atlantis_github_user_token" {

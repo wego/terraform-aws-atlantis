@@ -256,3 +256,5 @@ variable "custom_environment_variables" {
   description = "List of additional environment variables the container will use (list should contain maps with `name` and `value`)"
   default     = []
 }
+
+variable "webhook_hex" {}
