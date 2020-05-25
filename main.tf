@@ -125,14 +125,6 @@ resource "aws_ssm_parameter" "atlantis_bitbucket_user_token" {
   value = "${var.atlantis_bitbucket_user_token}"
 }
 
-resource "aws_ssm_parameter" "ansible_vault_password" {
-  count = "${var.ansible_vault_parameter_name != "" ? 0 : 1}"
-
-  name  = "${var.ansible_vault_parameter_name}"
-  type  = "SecureString"
-  value = "${lookup(var.custom_environment_secrets[0], "valueFrom")}"
-}
-
 ###################
 # VPC
 ###################
