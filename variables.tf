@@ -258,3 +258,5 @@ variable "custom_environment_variables" {
 }
 
 variable "webhook_hex" {}
+
+variable "ansible_vault_parameter_name" {}
