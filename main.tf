@@ -304,7 +304,7 @@ module "ecs" {
   source  = "terraform-aws-modules/ecs/aws"
   version = "v1.1.0"
 
-  name = "${var.name}"
+  name = "${var.name}-${var.env}"
 }
 
 resource "aws_iam_role" "ecs_task_execution" {
